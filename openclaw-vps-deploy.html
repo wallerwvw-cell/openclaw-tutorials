@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>openclaw-vps-deploy</title>
+  <style>
+    body { max-width: 800px; margin: 0 auto; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.8; }
+    h1, h2, h3 { color: #333; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    a { color: #2563eb; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+    th { background: #f5f5f5; }
+    .back { display: inline-block; margin-bottom: 20px; color: #666; text-decoration: none; }
+    .back:hover { color: #2563eb; }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back">← 返回首页</a>
+  <h1>OpenClaw VPS 服务器部署完全指南</h1>
+<blockquote>
+<p>📅 更新日期：2026年2月
+👨‍🏫 适合人群：电脑小白、完全没有编程经验、需要远程运行
+⏱️ 预计耗时：45-60分钟</p>
+</blockquote>
+<hr>
+<h2>📖 前言：为什么要用 VPS 运行 OpenClaw？</h2>
+<h3>什么是 VPS？</h3>
+<p><strong>简单解释：</strong></p>
+<ul>
+<li>VPS = Virtual Private Server（虚拟专用服务器）</li>
+<li>想象一下，你租了一台永远开机的电脑</li>
+<li>它 24 小时运行，不需要你维护</li>
+<li>无论你在哪里，都能通过手机或电脑访问它</li>
+</ul>
+<h3>为什么选择 VPS 运行 OpenClaw？</h3>
+<table>
+<thead>
+<tr>
+<th>优点</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>🌐 随时随地访问</td>
+<td>不在电脑前也能用 AI</td>
+</tr>
+<tr>
+<td>⚡ 24小时运行</td>
+<td>定时任务随时执行</td>
+</tr>
+<tr>
+<td>🔒 更安全</td>
+<td>不暴露个人电脑</td>
+</tr>
+<tr>
+<td>💻 不占本地资源</td>
+<td>不影响你正常使用电脑</td>
+</tr>
+</tbody></table>
+<h3>什么时候用 VPS？</h3>
+<ul>
+<li>✅ 需要 24 小时运行 AI 任务</li>
+<li>✅ 不在电脑旁边也想用 AI</li>
+<li>✅ 需要同时运行多个 AI 任务</li>
+<li>✅ 想要更专业的运行环境</li>
+</ul>
+<hr>
+<h2>🛠️ 第一章：准备工作</h2>
+<h3>1.1 购买 VPS 服务器</h3>
+<p><strong>推荐服务商：</strong></p>
+<table>
+<thead>
+<tr>
+<th>服务商</th>
+<th>特点</th>
+<th>推荐配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>阿里云</td>
+<td>国内访问快，稳定</td>
+<td>2核4G</td>
+</tr>
+<tr>
+<td>腾讯云</td>
+<td>国内访问快，便宜</td>
+<td>2核4G</td>
+</tr>
+<tr>
+<td>DigitalOcean</td>
+<td>国际线路好</td>
+<td>2核4G</td>
+</tr>
+<tr>
+<td>搬瓦工</td>
+<td>性价比高</td>
+<td>2核2G</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>新手推荐</strong>：阿里云或腾讯云的新用户优惠，1年大约 100-200 元</p>
+</blockquote>
+<p><strong>购买后的信息：</strong></p>
+<p>购买 VPS 后，你会收到以下信息（保存好！）：</p>
+<pre><code>🖥️ 服务器 IP：123.45.67.890
+👤 用户名：root
+🔑 登录密码：xxxxxx（或者 SSH 密钥）
+</code></pre>
+<blockquote>
+<p>⚠️ <strong>温馨提醒</strong>：这些信息很重要，不要泄露给其他人！</p>
+</blockquote>
+<h3>1.2 连接 VPS</h3>
+<h4>Windows 用户：使用远程桌面</h4>
+<ol>
+<li>按 <code>Win + R</code>，输入 <code>mstsc</code></li>
+<li>输入 VPS 的 IP 地址</li>
+<li>输入用户名 <code>root</code> 和密码</li>
+<li>点击连接</li>
+</ol>
+<h4>Mac 用户：使用终端</h4>
+<ol>
+<li>打开终端（Terminal）</li>
+<li>输入以下命令：</li>
+</ol>
+<pre><code class="language-bash">ssh root@123.45.67.890
+</code></pre>
+<blockquote>
+<p>💡 把 <code>123.45.67.890</code> 替换成你的 VPS IP 地址</p>
+</blockquote>
+<ol start="3">
+<li>第一次连接会问 &quot;Are you sure you want to continue?&quot;，输入 <code>yes</code> 然后回车</li>
+<li>输入 VPS 密码（输入时不显示字符是正常的）</li>
+</ol>
+<blockquote>
+<p>🎉 <strong>恭喜！</strong> 你已经连接到 VPS 了！</p>
+</blockquote>
+<hr>
+<h2>📦 第二章：在 VPS 上安装 OpenClaw</h2>
+<h3>2.1 安装必要软件</h3>
+<p>连接到 VPS 后，先更新系统：</p>
+<pre><code class="language-bash"># 更新软件包列表（需要 sudo 权限）
+apt update &amp;&amp; apt upgrade -y
+</code></pre>
+<p><strong>命令解释：</strong></p>
+<ul>
+<li><code>apt</code> = Ubuntu/Debian 的软件管理器</li>
+<li><code>update</code> = 检查更新</li>
+<li><code>upgrade</code> = 升级软件</li>
+<li><code>-y</code> = 自动确认所有询问</li>
+</ul>
+<blockquote>
+<p>⏱️ 预计耗时：5-10分钟</p>
+</blockquote>
+<h3>2.2 安装 Node.js</h3>
+<p><strong>安装 Node.js 环境：</strong></p>
+<pre><code class="language-bash"># 安装 Node.js 18 版本
+curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+apt install -y nodejs
+</code></pre>
+<p><strong>验证安装：</strong></p>
+<pre><code class="language-bash">node --version
+npm --version
+</code></pre>
+<p>如果成功，会显示版本号，例如：</p>
+<pre><code>v18.19.0
+10.2.4
+</code></pre>
+<h3>2.3 安装 OpenClaw</h3>
+<p><strong>安装 OpenClaw CLI：</strong></p>
+<pre><code class="language-bash">npm install -g openclaw
+</code></pre>
+<p><strong>验证安装：</strong></p>
+<pre><code class="language-bash">openclaw --version
+</code></pre>
+<p>如果成功，会显示版本信息：</p>
+<pre><code>🦞 OpenClaw 2026.2.15
+</code></pre>
+<blockquote>
+<p>🎉 <strong>太棒了！</strong> OpenClaw 已经安装成功！</p>
+</blockquote>
+<hr>
+<h2>⚙️ 第三章：配置 OpenClaw</h2>
+<h3>3.1 安装 Gateway 服务</h3>
+<p><strong>安装 Gateway：</strong></p>
+<pre><code class="language-bash">openclaw gateway install
+</code></pre>
+<p>这行命令会在 VPS 上安装一个&quot;后台服务&quot;，让 OpenClaw 始终保持运行。</p>
+<h3>3.2 启动 Gateway</h3>
+<p><strong>启动服务：</strong></p>
+<pre><code class="language-bash">openclaw gateway start
+</code></pre>
+<p><strong>检查状态：</strong></p>
+<pre><code class="language-bash">openclaw gateway status
+</code></pre>
+<p>正常情况下会显示：</p>
+<pre><code>✅ Gateway 正在运行
+🔗 连接地址：ws://0.0.0.0:8080
+</code></pre>
+<blockquote>
+<p>💡 <strong>VPS 特点</strong>：<code>0.0.0.0</code> 意味着可以从任何地方访问！</p>
+</blockquote>
+<h3>3.3 配置 API Key</h3>
+<p><strong>获取 API Key（见 Mac 版教程第四章）</strong></p>
+<p>这里有两种配置方式：</p>
+<h4>方式一：环境变量（临时）</h4>
+<pre><code class="language-bash">export OPENCLAW_API_KEY=&quot;你的API Key&quot;
+</code></pre>
+<h4>方式二：配置文件（永久）</h4>
+<pre><code class="language-bash">mkdir -p ~/.openclaw
+nano ~/.openclaw/config.json
+</code></pre>
+<p>添加以下内容：</p>
+<pre><code class="language-json">{
+  &quot;apiKeys&quot;: {
+    &quot;minimax&quot;: &quot;你的MiniMax API Key&quot;
+  },
+  &quot;defaultModel&quot;: &quot;MiniMax-M2.5&quot;
+}
+</code></pre>
+<p>按 <code>Ctrl + O</code> 保存，<code>Ctrl + X</code> 退出。</p>
+<hr>
+<h2>🌐 第四章：远程访问设置</h2>
+<h3>4.1 为什么需要远程访问？</h3>
+<p>VPS 上的 OpenClaw 运行后，你可能想：</p>
+<ul>
+<li>在家里电脑上使用</li>
+<li>在手机上使用</li>
+<li>让别人也能使用</li>
+</ul>
+<p>这就需要配置<strong>远程访问</strong>。</p>
+<h3>4.2 方法一：Tailscale（推荐）</h3>
+<p><strong>什么是 Tailscale？</strong></p>
+<ul>
+<li>类似 VPN，但更容易设置</li>
+<li>让你安全地访问 VPS</li>
+</ul>
+<p><strong>安装步骤：</strong></p>
+<ol>
+<li>在 VPS 上安装：</li>
+</ol>
+<pre><code class="language-bash">curl -fsSL https://tailscale.com/install.sh | sh
+</code></pre>
+<ol start="2">
+<li>启动 Tailscale：</li>
+</ol>
+<pre><code class="language-bash">tailscale up
+</code></pre>
+<ol start="3">
+<li>会显示一个网址，复制到浏览器打开</li>
+<li>用 Google/微软账号登录</li>
+<li>获取设备连接命令</li>
+</ol>
+<p><strong>获取你的 VPS 地址：</strong></p>
+<pre><code class="language-bash">tailscale ip -4
+</code></pre>
+<p>会显示类似 <code>100.xx.xx.xx</code> 的地址，这就是你从任何地方访问 VPS 的地址！</p>
+<h3>4.3 方法二：配置密码访问</h3>
+<p><strong>设置 Gateway 密码：</strong></p>
+<pre><code class="language-bash">openclaw gateway stop
+openclaw gateway start --auth password --password 你的密码
+</code></pre>
+<p>这样别人访问时需要输入密码，更加安全。</p>
+<hr>
+<h2>📱 第五章：如何使用</h2>
+<h3>5.1 本地电脑连接 VPS</h3>
+<p><strong>方法一：通过命令行</strong></p>
+<p>在本地电脑上安装 OpenClaw 后：</p>
+<pre><code class="language-bash">openclaw connect ws://你的VPSIP:8080 --token 你的token
+</code></pre>
+<p><strong>方法二：通过 Web 界面</strong></p>
+<ol>
+<li>打开浏览器</li>
+<li>访问：<code>http://你的VPSIP:8080</code></li>
+<li>输入密码（如果设置了）</li>
+</ol>
+<h3>5.2 常用命令</h3>
+<p>在 VPS 上执行的命令：</p>
+<pre><code class="language-bash"># 查看 Gateway 状态
+openclaw gateway status
+
+# 查看日志
+openclaw logs
+
+# 重启 Gateway
+openclaw gateway restart
+
+# 停止 Gateway
+openclaw gateway stop
+</code></pre>
+<hr>
+<h2>🔧 第六章：定时任务配置</h2>
+<h3>6.1 什么是定时任务？</h3>
+<p>让 AI 在指定时间自动执行任务，例如：</p>
+<ul>
+<li>📰 每天早上 8 点推送新闻</li>
+<li>💰 每天下午 5 点提醒检查订单</li>
+<li>📊 每周一生成周报</li>
+</ul>
+<h3>6.2 设置定时任务</h3>
+<p><strong>添加定时任务：</strong></p>
+<pre><code class="language-bash">openclaw cron add --name &quot;每日天气&quot; --schedule &quot;0 8 * * *&quot; --task &quot;查询北京天气并发送到Telegram&quot;
+</code></pre>
+<p><strong>查看定时任务：</strong></p>
+<pre><code class="language-bash">openclaw cron list
+</code></pre>
+<p><strong>删除定时任务：</strong></p>
+<pre><code class="language-bash">openclaw cron delete 任务ID
+</code></pre>
+<h3>6.3 常用定时任务示例</h3>
+<table>
+<thead>
+<tr>
+<th>任务</th>
+<th>Cron 表达式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>每天早上8点</td>
+<td><code>0 8 * * *</code></td>
+<td>每天 8:00 执行</td>
+</tr>
+<tr>
+<td>每小时</td>
+<td><code>0 * * * *</code></td>
+<td>每小时整点执行</td>
+</tr>
+<tr>
+<td>每天3次</td>
+<td><code>0 9,12,18 * * *</code></td>
+<td>9点、12点、18点执行</td>
+</tr>
+<tr>
+<td>每周一</td>
+<td><code>0 9 * * 1</code></td>
+<td>每周一 9:00 执行</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>❓ 第七章：常见问题解答</h2>
+<h3>Q1: VPS 性能不够用？</h3>
+<p><strong>问题：</strong> 运行卡顿、反应慢</p>
+<p><strong>解决方法：</strong></p>
+<ul>
+<li>升级 VPS 配置（增加内存）</li>
+<li>关闭不需要的服务</li>
+<li>使用更轻量的模型</li>
+</ul>
+<hr>
+<h3>Q2: 如何备份数据？</h3>
+<p><strong>定期备份很重要！</strong></p>
+<pre><code class="language-bash"># 备份配置文件
+cp -r ~/.openclaw ~/openclaw-backup
+</code></pre>
+<hr>
+<h3>Q3: Gateway 总是自动停止？</h3>
+<p><strong>问题：</strong> 重启后 Gateway 不自动运行</p>
+<p><strong>解决方法：</strong></p>
+<pre><code class="language-bash"># 检查是否开机自启
+systemctl status openclaw-gateway
+
+# 重新启用开机自启
+systemctl enable openclaw-gateway
+</code></pre>
+<hr>
+<h3>Q4: 忘记 VPS 密码怎么办？</h3>
+<p><strong>找回方法：</strong></p>
+<ol>
+<li>登录服务商后台</li>
+<li>找到 VPS 管理页面</li>
+<li>选择&quot;重置密码&quot;或&quot;Console&quot;</li>
+<li>按照提示操作</li>
+</ol>
+<hr>
+<h3>Q5: 不用了怎么卸载？</h3>
+<p><strong>完全卸载步骤：</strong></p>
+<pre><code class="language-bash"># 停止 Gateway
+openclaw gateway stop
+openclaw gateway uninstall
+
+# 删除 CLI
+npm uninstall -g openclaw
+
+# 删除数据（谨慎！）
+rm -rf ~/.openclaw
+</code></pre>
+<hr>
+<h2>🎉 总结</h2>
+<h3>你学到了什么？</h3>
+<ul>
+<li>✅ <strong>购买和连接 VPS</strong> - 获得远程服务器</li>
+<li>✅ <strong>安装 OpenClaw</strong> - 在服务器上部署</li>
+<li>✅ <strong>配置 Gateway</strong> - 启动核心服务</li>
+<li>✅ <strong>远程访问设置</strong> - 随时随地使用</li>
+<li>✅ <strong>定时任务</strong> - 自动化工作流程</li>
+</ul>
+<h3>费用估算</h3>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>月费用</th>
+<th>年费用</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>VPS (2核4G)</td>
+<td>30-50元</td>
+<td>300-500元</td>
+</tr>
+<tr>
+<td>域名（可选）</td>
+<td>5元</td>
+<td>60元</td>
+</tr>
+<tr>
+<td>API 调用</td>
+<td>20-50元</td>
+<td>240-600元</td>
+</tr>
+<tr>
+<td><strong>合计</strong></td>
+<td><strong>55-105元</strong></td>
+<td><strong>600-1160元</strong></td>
+</tr>
+</tbody></table>
+<h3>下一步</h3>
+<ol>
+<li><strong>配置更多功能</strong> - 消息渠道、浏览器操作</li>
+<li><strong>设置定时任务</strong> - 让 AI 自动工作</li>
+<li><strong>监控使用量</strong> - 避免超额</li>
+</ol>
+<hr>
+<blockquote>
+<p>📝 <strong>结束语</strong></p>
+<p>恭喜你已经掌握了 VPS 部署！🎉</p>
+<p>现在你可以：</p>
+<ul>
+<li>24 小时运行 AI 任务</li>
+<li>随时随地通过手机或电脑访问</li>
+<li>设置自动化工作流程</li>
+</ul>
+<p>祝你使用愉快！🚀</p>
+</blockquote>
+<hr>
+<p><em>教程作者：小鱼</em>
+<em>如有更新，恕不另行通知</em></p>
+
+</body>
+</html>
