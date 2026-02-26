@@ -518,7 +518,7 @@ npm uninstall -g openclaw
 
 1. **多和 AI 聊天** - 熟悉各种功能
 2. **尝试浏览器操作** - 让 AI 帮你自动化操作
-3. **配置消息渠道** - 连接微信/Telegram
+3. **配置消息渠道** - 连接 Telegram、Discord、飞书等 → [查看教程](./openclaw-channels-config.html)
 4. **设置定时任务** - 让 AI 自动帮你干活
 
 ### 需要帮助？
