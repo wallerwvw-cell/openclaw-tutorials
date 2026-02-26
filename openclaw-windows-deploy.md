@@ -2,7 +2,7 @@
 
 > 📅 更新日期：2026年2月
 > 👨‍🏫 适合人群：电脑小白、完全没有编程经验
-> ⏱️ 预计耗时：40-60分钟
+> ⏱️ 预计耗时：30-45分钟
 
 ---
 
@@ -28,7 +28,7 @@ OpenClaw 是一个 AI 助手，可以帮你完成各种电脑任务：
 | ⚙️ 兼容性好 | 软件支持多 |
 | 🆓 免费 | 不需要额外费用 |
 
-> 💡 **温馨提醒**：如果你用的是 Mac，请看另一篇《Mac mini 部署教程》
+> 💡 **温馨提醒**：强烈建议在 Windows 上使用 **WSL2**（Windows Linux 子系统）来运行 OpenClaw，体验更流畅！如果你不想用 WSL，也可以直接用 PowerShell 安装（见下文）。
 
 ---
 
@@ -43,86 +43,68 @@ OpenClaw 是一个 AI 助手，可以帮你完成各种电脑任务：
 - ✅ **20GB 可用硬盘空间**
 - ✅ **稳定的网络连接**
 
-### 1.2 需要安装的软件
+### 1.2 选择安装方式
 
-在安装 OpenClaw 之前，你需要安装以下工具：
+OpenClaw 在 Windows 上有两种安装方式：
 
-#### 软件一：Node.js（必装）
+| 方式 | 优点 | 缺点 |
+|------|------|------|
+| **方式一：WSL2（推荐）** | 体验最接近 Linux，兼容性最好 | 需要启用 WSL2 功能 |
+| **方式二：PowerShell** | 安装简单，直接运行 | 可能遇到兼容性问题 |
 
-**这是运行 OpenClaw 的基础环境，就像汽车的发动机。**
-
-**下载步骤：**
-
-1. 打开浏览器，访问：https://nodejs.org/
-2. 点击 **LTS（长期支持版）** 按钮下载
-3. 运行下载的文件
-
-**安装步骤：**
-
-1. 双击下载的 `.msi` 文件
-2. 点击 "Next"
-3. ✅ 勾选 "I accept..."（我同意）
-4. 点击 "Next"
-5. ✅ 勾选 "Add to PATH"（添加到环境变量）**← 非常重要！**
-6. 点击 "Next" → "Install"
-7. 等待安装完成
-
-> ⚠️ **温馨提醒**：
-> - 一定要勾选 "Add to PATH"！
-> - 安装过程可能需要 1-2 分钟
-
-#### 软件二：Git（建议安装）
-
-**这是版本控制工具，以后会用到。**
-
-**下载步骤：**
-
-1. 打开：https://git-scm.com/
-2. 点击 "Download for Windows"
-3. 运行下载的文件
-
-**安装步骤：**
-
-全部默认设置，点击 "Next" → "Install" 即可。
-
-### 1.3 打开终端
-
-**Windows 终端是什么？**
-终端就像一个"命令输入框"，你输入命令，电脑执行。
-
-**打开方法：**
-
-方法一：
-1. 按 `Win + R`
-2. 输入 `cmd`
-3. 按回车
-
-方法二（推荐）：
-1. 按 `Win + S`
-2. 输入 "PowerShell"
-3. 点击 "Windows PowerShell"
-
-> 💡 **小贴士**：建议把 PowerShell 固定到任务栏（右键图标 → 固定到任务栏）
+> ⚠️ **官方建议**：OpenClaw 官方推荐使用 **WSL2**，可获得最佳体验。以下教程会分别介绍两种方式。
 
 ---
 
 ## 📦 第二章：安装 OpenClaw
 
-### 2.1 安装 OpenClaw CLI
+### 方式一：使用 WSL2 安装（推荐 🌟）
 
-**打开终端（PowerShell）**
+#### 2.1.1 启用 WSL2
 
-**安装命令：**
+**什么是 WSL2？**
+WSL2 是 Windows 自带的 Linux 环境，就像在 Windows 里运行一台虚拟电脑。
 
-```powershell
-npm install -g openclaw
+**启用步骤：**
+
+1. **以管理员身份打开 PowerShell**
+   - 右键点击开始菜单
+   - 选择 "Windows PowerShell (管理员)"
+
+2. **输入以下命令并回车：**
+   ```powershell
+   wsl --install
+   ```
+
+3. **等待安装完成**，电脑会自动重启
+
+4. **重启后**，会自动弹出 Ubuntu 终端，设置用户名和密码
+
+> 💡 如果 `wsl --install` 不起作用，先手动启用 WSL 功能：
+> ```powershell
+> dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+> dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+> ```
+
+#### 2.1.2 在 WSL2 中安装 OpenClaw
+
+**打开 WSL 终端（Ubuntu）：**
+
+1. 点击开始菜单
+2. 输入 "Ubuntu"
+3. 点击 "Ubuntu" 应用
+
+**运行安装命令：**
+
+```bash
+curl -fsSL https://openclaw.ai/install.sh | bash
 ```
 
 **这行命令的意思：**
-- `npm` = Node.js 的包管理器（软件安装工具）
-- `install` = 安装
-- `-g` = 全局安装（让所有用户都能用）
-- `openclaw` = 要安装的软件
+- `curl` = 下载安装脚本
+- `fsSL` = 静默下载
+- `https://openclaw.ai/install.sh` = 安装脚本地址
+- `| bash` = 执行脚本
 
 **等待安装完成：**
 
@@ -133,7 +115,56 @@ npm install -g openclaw
 
 > ⏱️ 预计耗时：3-5分钟
 
-### 2.2 验证安装成功
+#### 2.1.3 验证 WSL2 中的安装
+
+**检查版本：**
+
+```bash
+openclaw --version
+```
+
+如果成功，会显示版本号：
+
+```
+🦞 OpenClaw 2026.x.x
+```
+
+---
+
+### 方式二：直接用 PowerShell 安装
+
+#### 2.2.1 打开 PowerShell
+
+**方法：**
+1. 按 `Win + S`
+2. 输入 "PowerShell"
+3. 右键点击 "Windows PowerShell"
+4. 选择 "以管理员身份运行"
+
+#### 2.2.2 运行安装命令
+
+**安装命令：**
+
+```powershell
+iwr -useb https://openclaw.ai/install.ps1 | iex
+```
+
+**这行命令的意思：**
+- `iwr` = Invoke-WebRequest（下载脚本）
+- `-useb` = 使用 Bencoding 编码
+- `https://openclaw.ai/install.ps1` = 安装脚本
+- `| iex` = 执行脚本
+
+**等待安装完成：**
+
+```
+🔄 正在下载和安装...
+✅ 安装成功！
+```
+
+> ⏱️ 预计耗时：3-5分钟
+
+#### 2.2.3 验证安装
 
 **检查版本：**
 
@@ -141,40 +172,40 @@ npm install -g openclaw
 openclaw --version
 ```
 
-如果成功，会显示：
+如果成功，会显示版本号：
 
 ```
-🦞 OpenClaw 2026.2.15
+🦞 OpenClaw 2026.x.x
 ```
-
-> 🎉 **恭喜！** OpenClaw 已经安装成功！
 
 ---
 
-## ⚙️ 第三章：配置 OpenClaw
-
-### 3.1 安装 Gateway 服务
+### 2.3 启动 Gateway 服务
 
 **Gateway 是什么？**
 Gateway 是 OpenClaw 的"大脑"，负责连接你和 AI。需要一直运行。
 
 **安装 Gateway：**
 
-```powershell
+```bash
+# 在 WSL2 中
+openclaw gateway install
+
+# 在 PowerShell 中
 openclaw gateway install
 ```
 
 **启动 Gateway：**
 
-```powershell
+```bash
 openclaw gateway start
 ```
 
 > 💡 首次启动可能需要 1-2 分钟，请耐心等待
 
-### 3.2 检查运行状态
+**检查运行状态：**
 
-```powershell
+```bash
 openclaw gateway status
 ```
 
@@ -187,31 +218,18 @@ openclaw gateway status
 
 > 🎉 **太棒了！** Gateway 已经正常运行！
 
-### 3.3 常见 Gateway 问题
-
-**问题：提示端口被占用？**
-
-```powershell
-# 先关闭可能占用的程序
-netstat -ano | findstr :8080
-# 然后运行
-taskkill /PID <进程ID> /F
-# 最后重新启动
-openclaw gateway start
-```
-
 ---
 
-## 🔑 第四章：获取和配置 API Key
+## 🔑 第三章：获取和配置 API Key
 
-### 4.1 什么是 API Key？
+### 3.1 什么是 API Key？
 
 **简单解释：**
 - AI 服务（如 MiniMax、Claude）就像"付费图书馆"
 - API Key = 你的"借书卡"
 - 每次问问题 = 借一本书，要收费
 
-### 4.2 获取免费 API Key（推荐 MiniMax）
+### 3.2 获取免费 API Key（推荐 MiniMax）
 
 **注册步骤：**
 
@@ -224,55 +242,62 @@ openclaw gateway start
 
 > 💡 **新用户福利**：MiniMax 新用户有免费额度，够用几个月！
 
-### 4.3 配置 API Key
+### 3.3 配置 API Key
 
 **方法一：临时配置（每次打开终端都要输入）**
 
-```powershell
+```bash
+# 在 WSL2 中
+export OPENCLAW_API_KEY="你的APIKey"
+
+# 在 PowerShell 中
 $env:OPENCLAW_API_KEY="你的APIKey"
 ```
 
 **方法二：永久配置（推荐）**
 
-1. 打开记事本（Win + R → notepad）
-2. 粘贴以下内容：
+1. 创建配置文件夹：
+   ```bash
+   # 在 WSL2 中
+   mkdir -p ~/.openclaw
+   
+   # 在 PowerShell 中
+   New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.openclaw"
+   ```
 
-```json
-{
-  "apiKeys": {
-    "minimax": "你的APIKey"
-  },
-  "defaultModel": "MiniMax-M2.5"
-}
-```
+2. 创建配置文件：
+   
+   **在 WSL2 中：**
+   ```bash
+   nano ~/.openclaw/config.json
+   ```
+   
+   **在 PowerShell 中：**
+   ```powershell
+   notepad "$env:USERPROFILE\.openclaw\config.json"
+   ```
 
-> ⚠️ 把"你的APIKey"替换成你复制的密钥！
+3. 粘贴以下内容（替换"你的APIKey"）：
+   ```json
+   {
+     "apiKeys": {
+       "minimax": "你的APIKey"
+     },
+     "defaultModel": "MiniMax-M2.5"
+   }
+   ```
 
-3. 保存到以下位置：
-   - 文件名：`config.json`
-   - 路径：`C:\Users\你的用户名\.openclaw\config.json`
-
-**保存步骤：**
-1. 记事本 → 文件 → 另存为
-2. 浏览到 `C:\Users\你的用户名\` 
-3. 右键 → 新建 → 文件夹，命名为 `.openclaw`
-4. 保存到 `C:\Users\你的用户名\.openclaw\config.json`
-
-> 💡 如果不会创建 `.openclaw` 文件夹，可以先保存为 `config.json`，然后用命令移动：
-> ```powershell
-> New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.openclaw"
-> Move-Item config.json "$env:USERPROFILE\.openclaw\"
-> ```
+4. 保存并退出
 
 ---
 
-## 🎯 第五章：首次使用教程
+## 🎯 第四章：首次使用教程
 
-### 5.1 启动对话
+### 4.1 启动对话
 
 **方法一：命令行对话**
 
-```powershell
+```bash
 openclaw
 ```
 
@@ -280,13 +305,13 @@ openclaw
 
 **方法二：Web 界面**
 
-```powershell
+```bash
 openclaw dashboard
 ```
 
 这会打开浏览器，显示可视化界面。
 
-### 5.2 第一个任务：让 AI 帮你查天气
+### 4.2 第一个任务：让 AI 帮你查天气
 
 **输入：**
 
@@ -299,7 +324,7 @@ openclaw dashboard
 2. 整理信息
 3. 回答你的问题
 
-### 5.3 第二个任务：让 AI 帮你写东西
+### 4.3 第二个任务：让 AI 帮你写东西
 
 **输入：**
 
@@ -309,7 +334,7 @@ openclaw dashboard
 
 **AI 会：** 生成一封专业的请假条
 
-### 5.4 第三个任务：让 AI 操作浏览器
+### 4.4 第三个任务：让 AI 操作浏览器
 
 **输入：**
 
@@ -325,9 +350,9 @@ openclaw dashboard
 
 ---
 
-## 🔧 第六章：进阶配置
+## 🔧 第五章：进阶配置
 
-### 6.1 设置默认模型
+### 5.1 设置默认模型
 
 OpenClaw 支持多个 AI 模型：
 
@@ -338,17 +363,17 @@ OpenClaw 支持多个 AI 模型：
 
 **设置默认模型：**
 
-```powershell
+```bash
 openclaw models set-default MiniMax-M2.5
 ```
 
-### 6.2 配置消息渠道
+### 5.2 配置消息渠道
 
 OpenClaw 可以连接多个聊天软件：
 
 **查看可用渠道：**
 
-```powershell
+```bash
 openclaw channels list
 ```
 
@@ -357,33 +382,37 @@ openclaw channels list
 1. 找 @BotFather 创建机器人
 2. 获取 bot token
 3. 运行：
-```powershell
+```bash
 openclaw channels add telegram
 ```
 
-### 6.3 设置定时任务
+### 5.3 设置定时任务
 
 **什么是定时任务？**
 让 AI 定时帮你做事情。
 
 **设置每天早上 8 点提醒：**
 
-```powershell
+```bash
 openclaw cron add --name "早安提醒" --schedule "0 8 * * *" --task "发送天气和问候"
 ```
 
 ---
 
-## ❓ 第七章：常见问题解答
+## ❓ 第六章：常见问题解答
 
-### Q1: 安装 node.js 失败？
+### Q1: WSL2 安装失败？
 
-**问题：** 安装报错或卡住
+**问题：** `wsl --install` 报错
 
 **解决方法：**
-1. 关闭杀毒软件后再安装
-2. 重启电脑后再尝试
-3. 下载离线安装包：https://nodejs.org/dist/v18.19.0/node-v18.19.0-x64.msi
+1. 确保 BIOS 中已启用虚拟化
+2. 手动启用 WSL 功能：
+   ```powershell
+   dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+   dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+   ```
+3. 重启电脑
 
 ---
 
@@ -392,9 +421,16 @@ openclaw cron add --name "早安提醒" --schedule "0 8 * * *" --task "发送天
 **问题：** 输入 `openclaw` 显示找不到
 
 **解决方法：**
-1. 重新打开 PowerShell
-2. 检查是否安装成功：`npm list -g openclaw`
-3. 如果没装上，重新安装：`npm install -g openclaw`
+1. 重新打开终端（WSL 或 PowerShell）
+2. 检查是否安装成功：
+   ```bash
+   # WSL2
+   npm list -g openclaw
+   
+   # PowerShell
+   npm list -g openclaw
+   ```
+3. 如果没装上，重新安装
 
 ---
 
@@ -403,9 +439,10 @@ openclaw cron add --name "早安提醒" --schedule "0 8 * * *" --task "发送天
 **问题：** 启动报错或闪退
 
 **解决方法：**
-```powershell
+```bash
 # 停止所有相关进程
-Get-Process | Where-Object {$_.Name -match "node"} | Stop-Process -Force
+pkill -f node
+
 # 重新启动
 openclaw gateway start
 ```
@@ -417,17 +454,19 @@ openclaw gateway start
 **问题：** 每次打开终端都要设置
 
 **解决方法：**
-1. 打开 PowerShell
-2. 输入：
-```powershell
-notepad $PROFILE
-```
-3. 在打开的记事本中粘贴：
-```powershell
-$env:OPENCLAW_API_KEY="你的APIKey"
-```
-4. 保存并关闭
-5. 重新打开 PowerShell
+1. 打开终端配置文件：
+   - WSL2: `nano ~/.bashrc`
+   - PowerShell: `notepad $PROFILE`
+2. 在最后添加：
+   ```bash
+   # WSL2
+   export OPENCLAW_API_KEY="你的APIKey"
+   
+   # PowerShell
+   $env:OPENCLAW_API_KEY="你的APIKey"
+   ```
+3. 保存并关闭
+4. 重新打开终端
 
 ---
 
@@ -446,7 +485,7 @@ $env:OPENCLAW_API_KEY="你的APIKey"
 
 **完全卸载步骤：**
 
-```powershell
+```bash
 # 停止 Gateway
 openclaw gateway stop
 
@@ -457,8 +496,23 @@ openclaw gateway uninstall
 npm uninstall -g openclaw
 
 # 删除配置文件夹
+# WSL2
+rm -rf ~/.openclaw
+
+# PowerShell
 Remove-Item -Recurse -Force "$env:USERPROFILE\.openclaw"
 ```
+
+---
+
+### Q7: 什么时候用 WSL2？什么时候用 PowerShell？
+
+| 场景 | 推荐 |
+|------|------|
+| 长期使用、追求稳定性 | WSL2 |
+| 偶尔尝鲜、快速测试 | PowerShell |
+| 需要经常操作文件 | WSL2 |
+| 只想简单体验 | PowerShell |
 
 ---
 
@@ -468,7 +522,7 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.openclaw"
 
 通过本教程，你已经掌握了：
 
-- ✅ **安装 Node.js** - 运行环境
+- ✅ **启用 WSL2**（可选）- Windows Linux 子系统
 - ✅ **安装 OpenClaw** - 安装 AI 助手
 - ✅ **配置 Gateway** - 启动核心服务
 - ✅ **获取 API Key** - 连接 AI 服务
@@ -480,7 +534,6 @@ Remove-Item -Recurse -Force "$env:USERPROFILE\.openclaw"
 | 项目 | 费用 |
 |------|------|
 | Windows 电脑 | 自有或 3000+ 元 |
-| Node.js | 免费 |
 | Openclaw | 免费 |
 | API Key | 免费额度用完需充值（约 20-50 元/月） |
 
