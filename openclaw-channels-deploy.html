@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw 对接 Telegram/Discord/飞书教程</title>
+  <style>
+    body { max-width: 800px; margin: 0 auto; padding: 40px 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.8; }
+    h1, h2, h3 { color: #333; }
+    code { background: #f4f4f4; padding: 2px 6px; border-radius: 4px; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 16px; border-radius: 8px; overflow-x: auto; }
+    pre code { background: none; padding: 0; }
+    a { color: #2563eb; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+    th { background: #f5f5f5; }
+    .back { display: inline-block; margin-bottom: 20px; color: #666; text-decoration: none; }
+    .back:hover { color: #2563eb; }
+  </style>
+</head>
+<body>
+  <a href="index.html" class="back">← 返回首页</a>
+  <h1>OpenClaw 对接 Telegram、Discord、飞书详细教程</h1>
+<blockquote>
+<p>📅 更新日期：2026年2月
+👨‍🏫 适合人群：电脑小白、想把 AI 接到聊天软件
+⏱️ 预计耗时：15-30分钟</p>
+</blockquote>
+<hr>
+<h2>📖 前言：为什么要对接聊天软件？</h2>
+<h3>对接后能做什么？</h3>
+<table>
+<thead>
+<tr>
+<th>功能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>💬 随时聊天</td>
+<td>在微信/Telegram/Discord 里直接问 AI</td>
+</tr>
+<tr>
+<td>📱 消息推送</td>
+<td>定时任务结果推送到聊天软件</td>
+</tr>
+<tr>
+<td>👥 群聊助手</td>
+<td>在群里当智能客服或助手</td>
+</tr>
+<tr>
+<td>🔔 提醒通知</td>
+<td>定时提醒、订单通知等</td>
+</tr>
+</tbody></table>
+<h3>支持哪些平台？</h3>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>状态</th>
+<th>推荐指数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Telegram</td>
+<td>✅ 成熟</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Discord</td>
+<td>✅ 成熟</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>飞书</td>
+<td>✅ 成熟</td>
+<td>⭐⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>WhatsApp</td>
+<td>✅ 成熟</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+<tr>
+<td>Slack</td>
+<td>✅ 成熟</td>
+<td>⭐⭐⭐⭐</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>💡 <strong>推荐</strong>：新手建议从 <strong>Telegram</strong> 开始，设置最简单！</p>
+</blockquote>
+<hr>
+<h2>🐕 第一章：对接 Telegram</h2>
+<p>Telegram 是最推荐的聊天平台，设置简单，功能强大！</p>
+<h3>1.1 创建 Telegram Bot</h3>
+<p><strong>步骤：</strong></p>
+<ol>
+<li>打开 Telegram</li>
+<li>搜索 <strong>@BotFather</strong>（注意确认是这个账号）</li>
+<li>发送 <code>/newbot</code> 命令</li>
+<li>按提示输入机器人名称（如 &quot;我的 AI 助手&quot;）</li>
+<li>用户名必须以 <code>_bot</code> 结尾（如 <code>my_ai_assistant_bot</code>）</li>
+<li>完成后会收到 <strong>Bot Token</strong>，复制保存</li>
+</ol>
+<blockquote>
+<p>💡 <strong>温馨提醒</strong>：Token 就像密码，一定要保存好！</p>
+</blockquote>
+<h3>1.2 配置 OpenClaw</h3>
+<p><strong>方法一：配置文件</strong></p>
+<p>创建或编辑配置文件：</p>
+<p><strong>在 Mac/W命令行：</strong></p>
+<pre><code class="language-bash">mkdir -p ~/.openclaw
+nano ~/.openclaw/config.json
+</code></pre>
+<p><strong>在 PowerShell/Windows：</strong></p>
+<pre><code class="language-powershell">New-Item -ItemType Directory -Force -Path &quot;$env:USERPROFILE\.openclaw&quot;
+notepad &quot;$env:USERPROFILE\.openclaw\config.json&quot;
+</code></pre>
+<p><strong>粘贴以下内容（替换你的 Token）：</strong></p>
+<pre><code class="language-json">{
+  &quot;channels&quot;: {
+    &quot;telegram&quot;: {
+      &quot;enabled&quot;: true,
+      &quot;botToken&quot;: &quot;你的BotToken&quot;,
+      &quot;dmPolicy&quot;: &quot;pairing&quot;
+    }
+  }
+}
+</code></pre>
+<blockquote>
+<p>⚠️ 把&quot;你的BotToken&quot;替换成 @BotFather 给你的 Token</p>
+</blockquote>
+<p><strong>方法二：命令行配置</strong></p>
+<pre><code class="language-bash">openclaw config set channels.telegram.enabled true --json
+openclaw config set channels.telegram.botToken &#39;&quot;你的Token&quot;&#39; --json
+</code></pre>
+<h3>1.3 启动配对</h3>
+<pre><code class="language-bash"># 重启 Gateway
+openclaw gateway restart
+
+# 查看配对列表
+openclaw pairing list telegram
+
+# 批准配对（会显示一个配对码）
+openclaw pairing approve telegram &lt;配对码&gt;
+</code></pre>
+<h3>1.4 开始使用</h3>
+<p>配对成功后：</p>
+<ul>
+<li>在 Telegram 给你的机器人发消息</li>
+<li>AI 就会回复你啦！</li>
+</ul>
+<h3>1.5 添加到群组</h3>
+<ol>
+<li>把机器人拉进群</li>
+<li>设置群组权限（如果需要）：<ul>
+<li>发送 <code>/setprivacy</code> 给 @BotFather，选择 <strong>Disable</strong>（这样机器人能看到所有消息）</li>
+<li>或者把机器人设为管理员</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2>🎮 第二章：对接 Discord</h2>
+<p>Discord 适合技术社区、玩家社群！</p>
+<h3>2.1 创建 Discord 应用</h3>
+<p><strong>步骤：</strong></p>
+<ol>
+<li>打开 <a href="https://discord.com/developers/applications">Discord Developer Portal</a></li>
+<li>点击 <strong>New Application</strong></li>
+<li>输入应用名称（如 &quot;OpenClaw&quot;）</li>
+<li>点击 <strong>Bot</strong> 侧边栏</li>
+<li>点击 <strong>Reset Token</strong>（第一次生成）</li>
+<li><strong>复制保存 Token</strong></li>
+</ol>
+<h3>2.2 开启权限</h3>
+<p>在 Bot 页面，向下滚动找到 <strong>Privileged Gateway Intents</strong>，开启：</p>
+<ul>
+<li>✅ <strong>Message Content Intent</strong>（必需）</li>
+<li>✅ <strong>Server Members Intent</strong>（推荐）</li>
+</ul>
+<h3>2.3 生成邀请链接</h3>
+<ol>
+<li>点击 <strong>OAuth2</strong> 侧边栏</li>
+<li>向下滚动到 <strong>OAuth2 URL Generator</strong></li>
+<li>勾选 <code>bot</code></li>
+<li>在 <strong>Bot Permissions</strong> 勾选：<ul>
+<li>✅ View Channels</li>
+<li>✅ Send Messages</li>
+<li>✅ Read Message History</li>
+<li>✅ Embed Links</li>
+<li>✅ Attach Files</li>
+</ul>
+</li>
+<li>复制底部生成的 URL，粘贴到浏览器</li>
+<li>选择你的服务器，点击 <strong>Continue</strong></li>
+</ol>
+<h3>2.4 获取 ID</h3>
+<ol>
+<li>打开 Discord 设置 → 高级 → 开启 <strong>开发者模式</strong></li>
+<li>右键服务器图标 → 复制服务器 ID</li>
+<li>右键自己头像 → 复制用户 ID</li>
+</ol>
+<h3>2.5 配置 OpenClaw</h3>
+<p><strong>命令行配置：</strong></p>
+<pre><code class="language-bash">openclaw config set channels.discord.token &#39;&quot;你的BotToken&quot;&#39; --json
+openclaw config set channels.discord.enabled true --json
+openclaw config set channels.discord.serverId &#39;&quot;你的服务器ID&quot;&#39; --json
+
+# 重启 Gateway
+openclaw gateway restart
+</code></pre>
+<h3>2.6 开始使用</h3>
+<ul>
+<li>给机器人发私信</li>
+<li>在服务器频道 @机器人</li>
+</ul>
+<hr>
+<h2>🏢 第三章：对接飞书</h2>
+<p>飞书是国内企业常用的办公通讯软件！</p>
+<h3>3.1 安装飞书插件</h3>
+<pre><code class="language-bash">openclaw plugins install @openclaw/feishu
+</code></pre>
+<h3>3.2 创建飞书应用</h3>
+<ol>
+<li>打开 <a href="https://open.feishu.cn/app">飞书开放平台</a></li>
+<li>点击 <strong>创建企业自建应用</strong></li>
+<li>填写应用名称和描述</li>
+<li>创建完成后进入应用</li>
+</ol>
+<h3>3.3 配置应用权限</h3>
+<p>在应用页面：</p>
+<ol>
+<li>点击 <strong>权限管理</strong></li>
+<li>添加以下权限：<ul>
+<li><code>im:chat:readonly</code>（读取聊天记录）</li>
+<li><code>im:message:send_as_bot</code>（发送消息）</li>
+<li><code>im:message:p2p_msg</code>（接收私信）</li>
+<li><code>im:chat:list</code>（获取群列表）</li>
+</ul>
+</li>
+</ol>
+<h3>3.4 获取凭据</h3>
+<ol>
+<li>点击 <strong>凭据管理</strong></li>
+<li>获取 <strong>App ID</strong> 和 <strong>App Secret</strong></li>
+<li>复制保存</li>
+</ol>
+<h3>3.5 配置 OpenClaw</h3>
+<p><strong>方法一：向导配置</strong></p>
+<pre><code class="language-bash">openclaw channels add
+</code></pre>
+<p>选择 <strong>Feishu</strong>，按提示输入 App ID 和 App Secret</p>
+<p><strong>方法二：手动配置</strong></p>
+<pre><code class="language-bash">openclaw config set channels.feishu.enabled true --json
+openclaw config set channels.feishu.appId &#39;&quot;你的AppId&quot;&#39; --json
+openclaw config set channels.feishu.appSecret &#39;&quot;你的AppSecret&quot;&#39; --json
+
+# 重启 Gateway
+openclaw gateway restart
+</code></pre>
+<hr>
+<h2>❓ 第四章：常见问题</h2>
+<h3>Q1: Telegram 收不到消息？</h3>
+<p><strong>检查：</strong></p>
+<ol>
+<li>是否已配对？运行 <code>openclaw pairing list telegram</code></li>
+<li>Token 是否正确？</li>
+<li>重启 Gateway：<code>openclaw gateway restart</code></li>
+</ol>
+<hr>
+<h3>Q2: Discord 机器人不响应？</h3>
+<p><strong>检查：</strong></p>
+<ol>
+<li>是否开启了 Message Content Intent？</li>
+<li>Bot 是否在服务器里？</li>
+<li>是否 @了机器人？</li>
+</ol>
+<hr>
+<h3>Q3: 飞书收不到消息？</h3>
+<p><strong>检查：</strong></p>
+<ol>
+<li>应用是否发布？（需要企业管理员发布）</li>
+<li>权限是否都开启了？</li>
+<li>是否添加了机器人的可用范围？</li>
+</ol>
+<hr>
+<h3>Q4: 如何同时开启多个平台？</h3>
+<pre><code class="language-json">{
+  &quot;channels&quot;: {
+    &quot;telegram&quot;: {
+      &quot;enabled&quot;: true,
+      &quot;botToken&quot;: &quot;xxx&quot;
+    },
+    &quot;discord&quot;: {
+      &quot;enabled&quot;: true,
+      &quot;token&quot;: &quot;xxx&quot;
+    },
+    &quot;feishu&quot;: {
+      &quot;enabled&quot;: true,
+      &quot;appId&quot;: &quot;xxx&quot;,
+      &quot;appSecret&quot;: &quot;xxx&quot;
+    }
+  }
+}
+</code></pre>
+<p>所有平台可以同时开启！</p>
+<hr>
+<h2>🎉 总结</h2>
+<table>
+<thead>
+<tr>
+<th>平台</th>
+<th>难度</th>
+<th>适合人群</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Telegram</td>
+<td>⭐</td>
+<td>新手、个人用户</td>
+</tr>
+<tr>
+<td>Discord</td>
+<td>⭐⭐</td>
+<td>技术社区、游戏玩家</td>
+</tr>
+<tr>
+<td>飞书</td>
+<td>⭐⭐⭐</td>
+<td>企业用户、国内团队</td>
+</tr>
+</tbody></table>
+<h3>你学到了什么？</h3>
+<ul>
+<li>✅ 创建 Telegram/Discord/飞书 Bot</li>
+<li>✅ 配置 OpenClaw</li>
+<li>✅ 配对和测试</li>
+<li>✅ 添加到群组</li>
+</ul>
+<h3>下一步</h3>
+<ul>
+<li>尝试在群里使用 AI</li>
+<li>设置定时推送任务</li>
+<li>自定义 AI 角色</li>
+</ul>
+<hr>
+<blockquote>
+<p>祝使用愉快！🚀</p>
+</blockquote>
+<hr>
+<p><em>教程作者：小鱼</em></p>
+
+</body>
+</html>
